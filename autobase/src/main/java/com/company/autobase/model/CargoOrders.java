@@ -1,22 +1,37 @@
 package com.company.autobase.model;
 
-import com.company.autobase.dao.shipment_typeDAO.ShipmentTypeDao;
-import com.company.autobase.dao.shipment_typeDAO.ShipmentTypeDaoImpl;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Entity
 @Builder
+@Table(name = "cargo_orders")
+@AllArgsConstructor
+@NoArgsConstructor
 public class CargoOrders {
-    private int id;
-    private double totalWeight;
-    private long shipmentTypeId;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "total_weight")
+    private double total_weight;
+
+    @ManyToOne
+    @JoinColumn(name = "shipment_type_id", nullable = false)
+    private ShipmentType shipmentType;
 
     @Override
     public String toString() {
         return "  Id: " + id + "\n" +
-                "  Shipment Weight: " + totalWeight + "\n" +
-                "  Shipment Type Id: " + shipmentTypeId + "\n" +
-                "=".repeat(10);
+                "  Total Weight: " + total_weight + "\n" +
+                "  Shipment Name Type: " + shipmentType.getName_type() + "\n" +
+                "  Cost: " + shipmentType.getCost() + "$\n" +
+                "  Experience: " + shipmentType.getExperience() + " years\n" +
+                "-".repeat(10);
     }
 }

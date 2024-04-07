@@ -1,22 +1,19 @@
 package com.company.autobase;
 import com.company.autobase.menu.MenuExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@Log4j2
 @Configuration
+@RequiredArgsConstructor
 public class AppStarter {
-    @Autowired
-    MenuExecutor menuExecutor;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AppStarter.class);
-
+    private final MenuExecutor menuExecutor;
     @Bean
     public ApplicationRunner init() {
-        LOGGER.info("ApplicationRunner has started");
+        log.debug("ApplicationRunner has started");
         return args -> {
             menuExecutor.printMenu();
         };
